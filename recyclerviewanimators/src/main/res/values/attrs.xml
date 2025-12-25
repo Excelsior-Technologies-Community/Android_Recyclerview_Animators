@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="RecyclerViewAnimator">
+
+        <!-- Animation type -->
+        <attr name="ra_animatorType" format="enum">
+            <enum name="fade" value="0"/>
+            <enum name="slide_bottom" value="1"/>
+            <enum name="scale" value="2"/>
+        </attr>
+
+        <!-- Common parameters -->
+        <attr name="ra_duration" format="integer"/>
+        <attr name="ra_delay" format="integer"/>
+
+        <!-- Slide specific -->
+        <attr name="ra_distance" format="dimension"/>
+
+    </declare-styleable>
+
+</resources>

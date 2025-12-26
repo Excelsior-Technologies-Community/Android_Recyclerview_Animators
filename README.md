@@ -18,6 +18,31 @@ Designed to be simple, predictable, and developer-friendly.
 - RecyclerView reuse safe (no flicker)
 - Demo app included
 
+---
+
+## Preview
+
+<table>
+  <tr>
+    <th>Slide Bottom Animation</th>
+    <th>Fade Animation</th>
+    <th>Scale Animation</th>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="assets/demo1.gif" width="300"/>
+    </td>
+    <td align="center">
+      <img src="assets/demo2.gif" width="300"/>
+    </td>
+    <td align="center">
+      <img src="assets/demo3.gif" width="300"/>
+    </td>
+  </tr>
+</table>
+
+---
+
 ## Installation (JitPack)
 
 ### 1️⃣ Add JitPack to your **root `settings.gradle` or `build.gradle`**

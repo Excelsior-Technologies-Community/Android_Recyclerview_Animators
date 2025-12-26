@@ -129,6 +129,126 @@ recyclerView.itemAnimator = ScaleInAnimator() // Scale In Animation
 
 ---
 
+## Example Usage 
+
+XML
+```
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.ext.recyclerviewanimators.RecyclerViewAnimator
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:ra_animatorType="slide_bottom"
+        app:ra_duration="500"
+        app:ra_delay="80"
+        app:ra_distance="80dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+Kotlin
+```
+import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
+import com.ext.recyclerviewanimators.animator.FadeInAnimator
+import com.ext.recyclerviewanimators.animator.ScaleInAnimator
+import com.ext.recyclerviewanimators.animator.SlideInBottomAnimator
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_main)
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val adapter = TestAdapter()
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+
+        // ✅ SET YOUR CUSTOM ANIMATOR FIRST
+        val animator = SlideInBottomAnimator().apply {
+            addDuration = 400
+            removeDuration = 400
+        }
+
+        recyclerView.itemAnimator = ScaleInAnimator()
+
+
+
+        // ✅ DISABLE CHANGE ANIMATIONS SAFELY
+        (recyclerView.itemAnimator as? SimpleItemAnimator)
+            ?.supportsChangeAnimations = false
+
+        // ⏱ Insert items AFTER RecyclerView is ready
+        recyclerView.postDelayed({
+            adapter.addItems(
+                List(20) { "Item #$it" }
+            )
+        }, 500)
+    }
+}
+```
+
+Adapter
+```
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+
+class TestAdapter : RecyclerView.Adapter<TestAdapter.ViewHolder>() {
+
+    private val items = mutableListOf<String>()
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val text: TextView = view.findViewById(android.R.id.text1)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(android.R.layout.simple_list_item_1, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.text.text = items[position]
+    }
+
+    override fun getItemCount(): Int = items.size
+
+    fun addItems(newItems: List<String>) {
+        val start = items.size
+        items.addAll(newItems)
+        notifyItemRangeInserted(start, newItems.size)
+    }
+}
+```
+
+
 ## XML Attributes
 
 | Attribute Name        | Description                                   | Format     | Default Value |

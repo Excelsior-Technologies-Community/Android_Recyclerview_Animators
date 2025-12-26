@@ -58,7 +58,9 @@ dependencyResolutionManagement {
 ```
 ### Add Dependency
 ```
-
+dependencies {
+	        implementation 'com.github.Excelsior-Technologies-Community:Android_RecyclerviewAnimators:1.0.0'
+	}
 
 ```
 
